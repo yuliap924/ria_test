@@ -4,7 +4,8 @@ print.crumble <- function(x, ...) {
 				 N = print_natural(x),
 				 RT = print_rt(x),
 				 O = print_organic(x),
-				 RI = print_ri(x))
+				 RI = print_ri(x),
+				 Te = print_te(x))
 }
 
 print_natural <- function(x) {
@@ -84,5 +85,24 @@ print_ri <- function(x) {
 	cli::cli_h3("{.emph Randomized Indirect Effect}")
 	cli::cli_text(cat("      "), "{.strong Estimate}: {round(x$estimates$riie, 4)}")
 	cli::cli_text(cat("    "), "{.strong Std. error}: {round(calc_stderror(x$estimates$eif_riie, x$id, x$weights), 4)}")
-	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci(x$estimates$riie, x$estimates$eif_riie, x$id, x$weights)[1], 4)}, {round(calc_ci(x$estimates$ride, x$estimates$eif_riie, x$id, x$weights)[2], 4)})")
+	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci(x$estimates$riie, x$estimates$eif_riie, x$id, x$weights)[1], 4)}, {round(calc_ci(x$estimates$riie, x$estimates$eif_riie, x$id, x$weights)[2], 4)})")
+}
+
+print_te <- function(x) {
+	cat("\n")
+	d <- cli::cli_div(theme = list(rule = list("line-type" = "double")))
+	cli::cli_rule(left = "Results {.fn crumble}")
+	cli::cli_end(d)
+	cli::cli_h3("{.emph Total Effect}")
+	cli::cli_text(cat("      "), "{.strong Estimate}: {round(x$estimates$ate, 4)}")
+	cli::cli_text(cat("    "), "{.strong Std. error}: {round(calc_stderror(x$estimates$eif_ate, x$id, x$weights), 4)}")
+	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci(x$estimates$ate, x$estimates$eif_ate, x$id, x$weights)[1], 4)}, {round(calc_ci(x$estimates$ate, x$estimates$eif_ate, x$id, x$weights)[2], 4)})")
+	cli::cli_h3("{.emph Randomized Total Effect}")
+	cli::cli_text(cat("      "), "{.strong Estimate}: {round(x$estimates$rate, 4)}")
+	cli::cli_text(cat("    "), "{.strong Std. error}: {round(calc_stderror(x$estimates$eif_rate, x$id, x$weights), 4)}")
+	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci(x$estimates$rate, x$estimates$eif_rate, x$id, x$weights)[1], 4)}, {round(calc_ci(x$estimates$rate, x$estimates$eif_rate, x$id, x$weights)[2], 4)})")
+	cli::cli_h3("{.emph Total Effect - Randomized Total Effect}")
+	cli::cli_text(cat("      "), "{.strong Estimate}: {round(x$estimates$ate_rate_diff, 4)}")
+	cli::cli_text(cat("    "), "{.strong Std. error}: {round(calc_stderror(x$estimates$eif_ate_rate_diff, x$id, x$weights), 4)}")
+	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[1], 4)}, {round(calc_ci(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[2], 4)})")
 }

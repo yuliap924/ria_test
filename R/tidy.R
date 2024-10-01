@@ -17,7 +17,8 @@ tidy.crumble <- function(x, ...) {
 								N = tidy_natural(x),
 								RT = tidy_rt(x),
 								O = tidy_organic(x),
-								RI = tidy_ri(x))
+								RI = tidy_ri(x),
+								Te = tidy_te(x))
 	class(out) <- c("tbl_df", "tbl", "data.frame")
 	out
 }
@@ -118,6 +119,32 @@ tidy_ri <- function(x) {
 		calc_ci,
 		out$estimate,
 		list(x$estimates$eif_ride, x$estimates$eif_riie),
+		MoreArgs = list(id = x$id, weights = x$weights),
+		SIMPLIFY = FALSE
+	)
+
+	out$conf.low <- sapply(ci, function(x) x[1])
+	out$conf.high <- sapply(ci, function(x) x[2])
+	out
+}
+
+tidy_te <- function(x) {
+	out <- data.frame(
+		effect_type = x$effect,
+		estimand = c("total effect", "randomized total effect", "total effect - randomized total effect"),
+		estimate = c(x$estimates$ate, x$estimates$rate, x$estimates$ate_rate_diff)
+	)
+
+	out$std.error <- mapply(
+		calc_stderror,
+		list(x$estimates$eif_ate, x$estimates$eif_rate, x$estimates$eif_ate_rate_diff),
+		MoreArgs = list(id = x$id, weights = x$weights), SIMPLIFY = TRUE
+	)
+
+	ci <- mapply(
+		calc_ci,
+		out$estimate,
+		list(x$estimates$eif_ate, x$estimates$eif_rate, x$estimates$eif_ate_rate_diff),
 		MoreArgs = list(id = x$id, weights = x$weights),
 		SIMPLIFY = FALSE
 	)

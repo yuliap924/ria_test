@@ -57,3 +57,14 @@ calc_estimates_rt <- function(eif_ns, eif_rs, weights) {
 		eif_ate = eif_ns[, "111"] - eif_ns[, "000"]
 	)
 }
+
+calc_estimates_te <- function(eif_ns, eif_rs, weights) {
+	list(
+		ate = weighted.mean(eif_ns[, "111"] - eif_ns[, "000"], weights),
+		eif_ate = eif_ns[, "111"] - eif_ns[, "000"],
+		rate = weighted.mean(eif_rs[, "1111"] - eif_rs[, "0000"], weights),
+		eif_rate = eif_rs[, "1111"] - eif_rs[, "0000"],
+		ate_rate_diff = weighted.mean(eif_ns[, "111"] - eif_ns[, "000"] - (eif_rs[, "1111"] - eif_rs[, "0000"]), weights),
+		eif_ate_rate_diff = eif_ns[, "111"] - eif_ns[, "000"] - (eif_rs[, "1111"] - eif_rs[, "0000"])
+	)
+}

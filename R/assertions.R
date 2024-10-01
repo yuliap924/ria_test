@@ -26,7 +26,7 @@ check_effect_type <- function(moc, effect) {
 		return("Must provide mediator-outcome confounders for recanting twins")
 	}
 
-	if (is.null(moc) & effect == "RI") {
+	if (is.null(moc) & effect %in% c("RI", "Te")) {
 		return("Must provide mediator-outcome confounders for interventional effects")
 	}
 
