@@ -229,4 +229,44 @@ crumble(
 #>         95% CI: (0.5805, 0.4662)
 ```
 
+##### Testing the differences between the natural effects and the interventional effects
+
+```{r eval=FALSE}
+crumble(
+	data = weight_behavior,
+	trt = "sports", 
+	outcome = "bmi",
+	covar = c("age", "sex", "tvhours"),
+	mediators = c("exercises", "overweigh"),
+	moc = "snack",
+	d0 = \(data, trt) factor(rep(1, nrow(data)), levels = c("1", "2")), 
+	d1 = \(data, trt) factor(rep(2, nrow(data)), levels = c("1", "2")), 
+	effect = "Te",
+	learners = c("mean", "glm", "earth", "ranger"), 
+	nn_module = sequential_module(),
+	control = crumble_control(crossfit_folds = 1L, epochs = 20L)
+)
+#> ✔ Permuting Z-prime variables... 1/1 tasks [4s]
+#> ✔ Fitting outcome regressions... 1/1 folds [41.1s]
+#> ✔ Computing alpha n density ratios... 1/1 folds [59s]
+#> ✔ Computing alpha r density ratios... 1/1 folds [56.7s]
+#> 
+#> ══ Results `crumble()` ═══════════════════════════════════════════════════════════════════════
+#> 
+#> ── Total Effect 
+#>       Estimate: 1.0427
+#>     Std. error: 0.2985
+#>         95% CI: (0.4576, 1.6278)
+#> 
+#> ── Randomized Total Effect 
+#>       Estimate: 1.0412
+#>     Std. error: 0.2944
+#>         95% CI: (0.4643, 1.6182)
+#> 
+#> ── Total Effect - Randomized Total Effect 
+#>       Estimate: 0.0014
+#>     Std. error: 0.0261
+#>         95% CI: (-0.0497, 0.0525)
+```
+
 #### References
