@@ -15,7 +15,7 @@ crumble(
   id = NULL,
   d0 = NULL,
   d1 = NULL,
-  effect = c("RT", "N", "RI", "O"),
+  effect = c("RT", "N", "RI", "O", "Te"),
   weights = rep(1, nrow(data)),
   learners = "glm",
   nn_module = sequential_module(),
@@ -61,8 +61,8 @@ See examples for how to specify shift functions for continuous, binary, and cate
 \item{effect}{[\code{character(1)}]\cr
 The type of effect to estimate. Options are \code{"RT"} for recanting twins,
 \code{"N"} for natural effects, \code{"RI"} for randomized interventional effects,
-and \code{"O"} for organic effects.
-If \code{"RT"} or \code{"RI"} is selected, \code{moc} must be provided.
+\code{"O"} for organic effects, \code{"Te"} for the test for interventional effects.
+If \code{"RT"}, \code{"RI"}, or \code{"Te"} is selected, \code{moc} must be provided.
 If \code{"N"} or \code{"O"} is selected, \code{moc} must be \code{NULL}.}
 
 \item{weights}{[\code{numeric}]\cr
