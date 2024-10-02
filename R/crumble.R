@@ -34,8 +34,8 @@
 #' @param effect [\code{character(1)}]\cr
 #'  The type of effect to estimate. Options are \code{"RT"} for recanting twins,
 #'  \code{"N"} for natural effects, \code{"RI"} for randomized interventional effects,
-#'  and \code{"O"} for organic effects.
-#'  If \code{"RT"} or \code{"RI"} is selected, \code{moc} must be provided.
+#'  \code{"O"} for organic effects, \code{"Te"} for the test for interventional effects.
+#'  If \code{"RT"}, \code{"RI"}, or \code{"Te"} is selected, \code{moc} must be provided.
 #'  If \code{"N"} or \code{"O"} is selected, \code{moc} must be \code{NULL}.
 #' @param weights [\code{numeric}]\cr
 #'  A optional vector of survey weights.
@@ -70,7 +70,7 @@ crumble <- function(data,
 										id = NULL,
 										d0 = NULL,
 										d1 = NULL,
-										effect = c("RT", "N", "RI", "O"),
+										effect = c("RT", "N", "RI", "O", "Te"),
 										weights = rep(1, nrow(data)),
 										learners = "glm",
 										nn_module = sequential_module(),
@@ -91,7 +91,8 @@ crumble <- function(data,
 									 N = natural,
 									 O = organic,
 									 RT = recanting_twin,
-									 RI = randomized)
+									 RI = randomized,
+									 Te = ria_test)
 
 	# Create crumble_data object
 	cd <- crumble_data(
@@ -126,7 +127,7 @@ crumble <- function(data,
 		eif_ns <- NULL
 	}
 
-  # Estimate density ratios, alpha randomized
+	# Estimate density ratios, alpha randomized
 	alpha_rs <- estimate_phi_r_alpha(cd, folds, params, nn_module, control)
 	if (!is.null(alpha_rs)) {
 		eif_rs <- sapply(colnames(alpha_rs[[1]]), \(ijkl) eif_r(cd, thetas$theta_r, alpha_rs, ijkl))
@@ -141,7 +142,8 @@ crumble <- function(data,
 											 N = calc_estimates_natural(eif_ns, weights),
 											 O = calc_estimates_organic(eif_ns, weights),
 											 RT = calc_estimates_rt(eif_ns, eif_rs, weights),
-											 RI = calc_estimates_ri(eif_rs, weights)),
+											 RI = calc_estimates_ri(eif_rs, weights),
+											 Te = calc_estimates_te(eif_ns, eif_rs, weights)),
 		outcome_reg = thetas,
 		alpha_n = alpha_ns,
 		alpha_r = alpha_rs,
