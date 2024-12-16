@@ -24,8 +24,8 @@ crumble_data <- S7::new_class("crumble_data",
 									 d1 = d1,
 									 data_0 = shift_data(data, vars@A, vars@C, d0),
 									 data_1 = shift_data(data, vars@A, vars@C, d1),
-									 data_0zp = S7::class_missing,
-									 data_1zp = S7::class_missing)
+									 data_0zp = data.frame(),
+									 data_1zp = data.frame())
 	},
 	validator = function(self) {
 		all_vars <- c(self@vars@A, self@vars@W, self@vars@Z, self@vars@M, self@vars@C, self@vars@Y)
