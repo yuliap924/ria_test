@@ -22,7 +22,7 @@ calc_ci <- function(x, eif, id, weights) {
 
 calc_ci_te <- function(x, eif, id, weights) {
 	se <- calc_stderror(eif, id, weights)
-	return(list(
+	return(c(
 		x + c(-1, 1)*se*qnorm(0.975),
 		x + c(-1, 1)*se*qnorm(0.95),
 		x + c(-1, 1)*se*qnorm(0.995)
