@@ -110,7 +110,7 @@ print_te <- function(x) {
 	cli::cli_text(cat("      "), "{.strong Estimate}: {round(x$estimates$ate_rate_diff, 4)}")
 	cli::cli_text(cat("    "), "{.strong Std. error}: {round(calc_stderror(x$estimates$eif_ate_rate_diff, x$id, x$weights), 4)}")
 	cli::cli_text(cat("        "), "{.strong 95% CI}: ({round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[1], 4)}, {round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[2], 4)})")
-	cli::cli_text(cat("        "), "{.strong 90% CI}: ({round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[3], 4)}, {round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[5], 4)})")
+	cli::cli_text(cat("        "), "{.strong 90% CI}: ({round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[3], 4)}, {round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[4], 4)})")
 	cli::cli_text(cat("        "), "{.strong 99% CI}: ({round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[5], 4)}, {round(calc_ci_te(x$estimates$ate_rate_diff, x$estimates$eif_ate_rate_diff, x$id, x$weights)[6], 4)})")
 
 }
