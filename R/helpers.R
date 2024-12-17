@@ -17,6 +17,11 @@ calc_stderror <- function(eif, id, weights) {
 
 calc_ci <- function(x, eif, id, weights) {
 	se <- calc_stderror(eif, id, weights)
+	x + c(-1, 1)*se*qnorm(0.975)
+}
+
+calc_ci_te <- function(x, eif, id, weights) {
+	se <- calc_stderror(eif, id, weights)
 	return(list(
 		x + c(-1, 1)*se*qnorm(0.975),
 		x + c(-1, 1)*se*qnorm(0.95),
