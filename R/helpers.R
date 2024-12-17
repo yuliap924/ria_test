@@ -17,7 +17,12 @@ calc_stderror <- function(eif, id, weights) {
 
 calc_ci <- function(x, eif, id, weights) {
 	se <- calc_stderror(eif, id, weights)
-	x + c(-1, 1)*se*qnorm(0.975)
+	return(list(
+		x + c(-1, 1)*se*qnorm(0.975),
+		x + c(-1, 1)*se*qnorm(0.95),
+		x + c(-1, 1)*se*qnorm(0.995)
+		)
+	       )
 }
 
 make_folds <- function(data, V, id, strata) {
